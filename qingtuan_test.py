@@ -85,7 +85,19 @@ def qingtuan_tijiaozhong():
         "pageNum": "1",
         "pageSize": "10",
     }
-    print(requests.post(url=url, headers=headers, data=data).json())
+    data1 = requests.post(url=url, headers=headers, data=data).json()
+    # print(data1)
+    pgs = data1["data"]["totalPageNum"]
+    dd_list = list()
+    for pg in range(1, pgs + 1):
+        data["pageNum"] = pg
+        data1 = requests.post(url=url, headers=headers, data=data).json()
+        datas = data1["data"]["results"]
+        for data in datas:
+            # print(data.get("taskBaseId"))
+            dd_list.append(data.get("taskBaseId"))
+    taskBaseIds.extend(dd_list)
+    return dd_list
 
 
 taskBaseIds = list()
@@ -124,7 +136,7 @@ def qingtuan_lingqv(taskBaseId):
     }
 
     data = requests.post(url=url, headers=headers, data=data).json()
-    print(data)
+    # print(data)
     if str(data["code"]) == "4000":
         datas = data["data"]["taskApplyId"]
         taskBaseIds.append(datas)
@@ -163,7 +175,10 @@ if __name__ == '__main__':
     ddlists = qingtuan_list()
     for ddlist in ddlists:
         qingtuan_lingqv(ddlist)
+
     print("taskBaseIds", taskBaseIds)
+    qingtuan_tijiaozhong()
 
     for taskBaseId in taskBaseIds:
         qingtuan_tijiao(taskBaseId)
+
