@@ -176,8 +176,8 @@ if __name__ == '__main__':
     for ddlist in ddlists:
         qingtuan_lingqv(ddlist)
 
-    print("taskBaseIds", taskBaseIds)
     qingtuan_tijiaozhong()
+    print("taskBaseIds", taskBaseIds)
 
     for taskBaseId in taskBaseIds:
         qingtuan_tijiao(taskBaseId)
